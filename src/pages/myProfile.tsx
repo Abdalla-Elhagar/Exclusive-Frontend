@@ -3,7 +3,7 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import { logedInUser } from "../slices/selectedUser";
 
-import { API } from "../API/getCartData";
+const API = import.meta.env.VITE_API
 ;
 
 export default function Profile() {

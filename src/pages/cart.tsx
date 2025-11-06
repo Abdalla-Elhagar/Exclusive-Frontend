@@ -7,7 +7,7 @@ import type { cartItemTypes, cartTypes } from "../Types/cart";
 import type { productType } from "../Types/products";
 import { userCart } from "../slices/productData";
 
-import { API } from "../API/getCartData";
+const API = import.meta.env.VITE_API
 ;
 
 export default function Cart() {

@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { StoreProducts } from "../slices/productData";
 
-import { API } from "./getCartData";
-;
+const API = import.meta.env.VITE_API
+
 export const APIProductData = async () => {
   const res = await fetch(`${API}/products`);
 
