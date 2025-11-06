@@ -213,7 +213,7 @@ export default function ProductCard({ product }: { product: productType }) {
         </button>
         <LazyLoadImage
           className="bg-[#F5F5F5] w-full h-full"
-          src={product.image}
+          src={`https://exclusive-backend-phi.vercel.app/proxy-image?url=${encodeURIComponent(product.image)}`}
           effect="blur"
           alt="product image"
         />
