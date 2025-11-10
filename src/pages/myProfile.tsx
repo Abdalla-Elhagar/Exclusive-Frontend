@@ -3,6 +3,7 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import { logedInUser } from "../slices/selectedUser";
 import PulseLoader from "react-spinners/PulseLoader";
+import { useNavigate } from "react-router-dom";
 
 const API = import.meta.env.VITE_API;
 
@@ -13,6 +14,8 @@ export default function Profile() {
     newPass: "",
     confirmPass: "",
   });
+
+  const navigate = useNavigate();
 
   const user = useSelector((state: any) => state.SelectedUser.data);
   const [error, setError] = useState(false);
@@ -72,6 +75,8 @@ export default function Profile() {
       const data = await res.json();
       dispatch(logedInUser(data));
       toast.success("Profile updated successfully");
+      navigate("/");
+      location.reload();
     } catch (err) {
       console.log(err);
       toast.error("Error updating profile");
