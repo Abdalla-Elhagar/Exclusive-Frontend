@@ -40,7 +40,7 @@ export default function Countdown() {
   return (
     <div className="countdown flex items-center space-x-4">
       {timeData.map((TD, index) => (
-        <div key={index} className="text-center w-14 -mt-5">
+        <div key={index} className="text-center w-20 -mt-5">
           <span className="block w-full text-[12px] text-start ml-2 text-gray-500">
             {TD.text}
           </span>
