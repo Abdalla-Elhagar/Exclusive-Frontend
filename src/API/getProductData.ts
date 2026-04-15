@@ -7,15 +7,7 @@ import type { productType } from "../Types/products";
 const API = import.meta.env.VITE_API;
 
 const fetchProducts = async (): Promise<productType[]> => {
-  const token = localStorage.getItem("authToken");
-
-  const res = await fetch(`${API}/products`, {
-    headers: token
-      ? {
-          Authorization: `Bearer ${token}`,
-        }
-      : {},
-  });
+  const res = await fetch(`${API}/products`);
 
   if (!res.ok) throw new Error("Failed to fetch products");
 
