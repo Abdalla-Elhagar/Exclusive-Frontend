@@ -50,7 +50,10 @@ function MainApp() {
   const { isPending: userLoading } = useUserData();
 
   const isAppLoading =
-    productsLoading || favoritesLoading || cartLoading || userLoading;
+    productsLoading === "pending" ||
+    favoritesLoading === "pending" ||
+    cartLoading === "pending" ||
+    userLoading === "pending";
   if (isAppLoading) {
     return <LoadingSpinner />;
   }
