@@ -6,7 +6,7 @@ import type { productType } from "../Types/products";
 
 const API = import.meta.env.VITE_API;
 
-const fetchProducts = async (): Promise<productType[] | null> => {
+const fetchProducts = async (): Promise<productType[]> => {
   const token = localStorage.getItem("authToken");
 
   const res = await fetch(`${API}/products`, {
@@ -28,7 +28,6 @@ export const useProducts = () => {
   const query = useQuery<productType[] | null, Error>({
     queryKey: ["products"],
     queryFn: fetchProducts,
-    enabled: !!localStorage.getItem("authToken"),
     staleTime: 5 * 60 * 1000,
   });
 

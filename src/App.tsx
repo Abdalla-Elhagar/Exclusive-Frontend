@@ -49,11 +49,10 @@ function MainApp() {
   const { isPending: cartLoading } = useCart();
   const { isPending: userLoading } = useUserData();
 
+  // if (!localStorage.getItem("authToken"))
+
   const isAppLoading =
-    productsLoading === "pending" ||
-    favoritesLoading === "pending" ||
-    cartLoading === "pending" ||
-    userLoading === "pending";
+    productsLoading || favoritesLoading || cartLoading || userLoading;
   if (isAppLoading) {
     return <LoadingSpinner />;
   }
