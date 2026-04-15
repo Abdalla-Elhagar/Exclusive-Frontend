@@ -44,10 +44,10 @@ function App() {
 }
 
 function MainApp() {
-  const { isLoading: productsLoading } = useProducts();
-  const { isLoading: favoritesLoading } = useFavorites();
-  const { isLoading: cartLoading } = useCart();
-  const { isLoading: userLoading } = useUserData();
+  const { isPending: productsLoading } = useProducts();
+  const { isPending: favoritesLoading } = useFavorites();
+  const { isPending: cartLoading } = useCart();
+  const { isPending: userLoading } = useUserData();
 
   const isAppLoading =
     productsLoading || favoritesLoading || cartLoading || userLoading;
