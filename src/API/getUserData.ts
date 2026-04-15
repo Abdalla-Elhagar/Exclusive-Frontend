@@ -32,8 +32,6 @@ const fetchUser = async (): Promise<any> => {
 };
 
 export const useUserData = () => {
-  if (!localStorage.getItem("authToken")) return null;
-
   const dispatch = useDispatch();
 
   const query = useQuery<any, Error>({
