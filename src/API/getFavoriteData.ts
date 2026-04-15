@@ -37,7 +37,7 @@ const fetchFavorites = async (): Promise<favoriteTypes | null> => {
 export const useFavorites = () => {
   const dispatch = useDispatch();
 
-  const query = useQuery<favoriteTypes, Error>({
+  const query = useQuery<favoriteTypes | null, Error>({
     queryKey: ["favorites"],
     queryFn: fetchFavorites,
     staleTime: 5 * 60 * 1000,

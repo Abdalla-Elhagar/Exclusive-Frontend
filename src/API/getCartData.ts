@@ -37,7 +37,7 @@ const fetchCart = async (): Promise<cartTypes | null> => {
 export const useCart = () => {
   const dispatch = useDispatch();
 
-  const query = useQuery<cartTypes, Error>({
+  const query = useQuery<cartTypes | null, Error>({
     queryKey: ["cart"],
     queryFn: fetchCart,
     staleTime: 5 * 60 * 1000,

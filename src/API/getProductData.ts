@@ -18,7 +18,7 @@ export const useProducts = () => {
 
   const dispatch = useDispatch();
 
-  const query = useQuery<productType[], Error>({
+  const query = useQuery<productType[] | null, Error>({
     queryKey: ["products"],
     queryFn: fetchProducts,
     staleTime: 5 * 60 * 1000,
