@@ -5,7 +5,6 @@ import { logedInUser } from "../slices/selectedUser";
 const API = import.meta.env.VITE_API;
 
 const fetchUser = async (): Promise<any> => {
-  if (!localStorage.getItem("authToken")) return null;
   const token = localStorage.getItem("authToken");
 
   const headers: any = {
@@ -40,6 +39,7 @@ export const useUserData = () => {
   const query = useQuery<any, Error>({
     queryKey: ["user"],
     queryFn: fetchUser,
+    enabled: !!localStorage.getItem("authToken"),
     staleTime: 5 * 60 * 1000,
   });
 

@@ -5,9 +5,7 @@ import type { cartTypes } from "../Types/cart";
 
 const API = import.meta.env.VITE_API;
 
-const fetchCart = async (): Promise<cartTypes | null> => {
-  if (!localStorage.getItem("authToken")) return null;
-
+const fetchCart = async (): Promise<cartTypes> => {
   const token = localStorage.getItem("authToken");
 
   const headers: any = {
@@ -37,9 +35,10 @@ const fetchCart = async (): Promise<cartTypes | null> => {
 export const useCart = () => {
   const dispatch = useDispatch();
 
-  const query = useQuery<cartTypes | null, Error>({
+  const query = useQuery<cartTypes, Error>({
     queryKey: ["cart"],
     queryFn: fetchCart,
+    enabled: !!localStorage.getItem("authToken"),
     staleTime: 5 * 60 * 1000,
   });
 

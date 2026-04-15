@@ -5,9 +5,7 @@ import type { favoriteTypes } from "../Types/favorite";
 
 const API = import.meta.env.VITE_API;
 
-const fetchFavorites = async (): Promise<favoriteTypes | null> => {
-  if (!localStorage.getItem("authToken")) return null;
-
+const fetchFavorites = async (): Promise<favoriteTypes> => {
   const token = localStorage.getItem("authToken");
 
   const headers: any = {
@@ -37,10 +35,11 @@ const fetchFavorites = async (): Promise<favoriteTypes | null> => {
 export const useFavorites = () => {
   const dispatch = useDispatch();
 
-  const query = useQuery<favoriteTypes | null, Error>({
+  const query = useQuery<favoriteTypes, Error>({
     queryKey: ["favorites"],
     queryFn: fetchFavorites,
     staleTime: 5 * 60 * 1000,
+    enabled: !!localStorage.getItem("authToken"),
     retry: 1,
   });
 
