@@ -3,47 +3,49 @@ import { useDispatch } from "react-redux";
 import { logedInUser } from "../slices/selectedUser";
 
 const API = import.meta.env.VITE_API;
-if (localStorage.getItem("authToken")) {
-  const fetchUser = async (): Promise<any> => {
-    const token = localStorage.getItem("authToken");
 
-    const headers: any = {
-      "Content-Type": "application/json",
-    };
+const fetchUser = async (): Promise<any> => {
+  if (!localStorage.getItem("authToken")) return null;
+  const token = localStorage.getItem("authToken");
 
-    if (token) {
-      headers["Authorization"] = `Bearer ${token}`;
-    }
-
-    const res = await fetch(`${API}/users/me`, {
-      method: "GET",
-      credentials: "include",
-      headers,
-    });
-
-    if (!res.ok) {
-      if (res.status === 401) {
-        localStorage.removeItem("authToken");
-      }
-      throw new Error("User not authenticated");
-    }
-
-    return res.json();
+  const headers: any = {
+    "Content-Type": "application/json",
   };
 
-  export const useUserData = () => {
-    const dispatch = useDispatch();
+  if (token) {
+    headers["Authorization"] = `Bearer ${token}`;
+  }
 
-    const query = useQuery<any, Error>({
-      queryKey: ["user"],
-      queryFn: fetchUser,
-      staleTime: 5 * 60 * 1000,
-    });
+  const res = await fetch(`${API}/users/me`, {
+    method: "GET",
+    credentials: "include",
+    headers,
+  });
 
-    if (query.data) {
-      dispatch(logedInUser(query.data));
+  if (!res.ok) {
+    if (res.status === 401) {
+      localStorage.removeItem("authToken");
     }
+    throw new Error("User not authenticated");
+  }
 
-    return query;
-  };
-} else return null;
+  return res.json();
+};
+
+export const useUserData = () => {
+  if (!localStorage.getItem("authToken")) return null;
+
+  const dispatch = useDispatch();
+
+  const query = useQuery<any, Error>({
+    queryKey: ["user"],
+    queryFn: fetchUser,
+    staleTime: 5 * 60 * 1000,
+  });
+
+  if (query.data) {
+    dispatch(logedInUser(query.data));
+  }
+
+  return query;
+};

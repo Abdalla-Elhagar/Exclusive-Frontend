@@ -5,26 +5,28 @@ import type { productType } from "../Types/products";
 
 const API = import.meta.env.VITE_API;
 
-if (localStorage.getItem("authToken")) {
-  const fetchProducts = async (): Promise<productType[]> => {
-    const res = await fetch(`${API}/products`);
-    if (!res.ok) throw new Error("Failed to fetch products");
-    return res.json();
-  };
+const fetchProducts = async (): Promise<productType[] | null> => {
+  if (!localStorage.getItem("authToken")) return null;
 
-  export const useProducts = () => {
-    const dispatch = useDispatch();
+  const res = await fetch(`${API}/products`);
+  if (!res.ok) throw new Error("Failed to fetch products");
+  return res.json();
+};
 
-    const query = useQuery<productType[], Error>({
-      queryKey: ["products"],
-      queryFn: fetchProducts,
-      staleTime: 5 * 60 * 1000,
-    });
+export const useProducts = () => {
+  if (!localStorage.getItem("authToken")) return null;
 
-    if (query.data) {
-      dispatch(StoreProducts(query.data));
-    }
+  const dispatch = useDispatch();
 
-    return query;
-  };
-} else return null;
+  const query = useQuery<productType[], Error>({
+    queryKey: ["products"],
+    queryFn: fetchProducts,
+    staleTime: 5 * 60 * 1000,
+  });
+
+  if (query.data) {
+    dispatch(StoreProducts(query.data));
+  }
+
+  return query;
+};

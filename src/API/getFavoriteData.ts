@@ -4,48 +4,49 @@ import { userFavorite } from "../slices/productData";
 import type { favoriteTypes } from "../Types/favorite";
 
 const API = import.meta.env.VITE_API;
-if (localStorage.getItem("authToken")) {
-  const fetchFavorites = async (): Promise<favoriteTypes> => {
-    const token = localStorage.getItem("authToken");
 
-    const headers: any = {
-      "Content-Type": "application/json",
-    };
+const fetchFavorites = async (): Promise<favoriteTypes | null> => {
+  if (!localStorage.getItem("authToken")) return null;
 
-    if (token) {
-      headers["Authorization"] = `Bearer ${token}`;
-    }
+  const token = localStorage.getItem("authToken");
 
-    const res = await fetch(`${API}/favorite`, {
-      method: "GET",
-      credentials: "include",
-      headers,
-    });
-
-    if (!res.ok) {
-      if (res.status === 401) {
-        localStorage.removeItem("authToken");
-      }
-      throw new Error("Failed to fetch favorites");
-    }
-
-    return res.json();
+  const headers: any = {
+    "Content-Type": "application/json",
   };
 
-  export const useFavorites = () => {
-    const dispatch = useDispatch();
+  if (token) {
+    headers["Authorization"] = `Bearer ${token}`;
+  }
 
-    const query = useQuery<favoriteTypes, Error>({
-      queryKey: ["favorites"],
-      queryFn: fetchFavorites,
-      staleTime: 5 * 60 * 1000,
-      retry: 1,
-    });
+  const res = await fetch(`${API}/favorite`, {
+    method: "GET",
+    credentials: "include",
+    headers,
+  });
 
-    if (query.data) {
-      dispatch(userFavorite(query.data));
+  if (!res.ok) {
+    if (res.status === 401) {
+      localStorage.removeItem("authToken");
     }
+    throw new Error("Failed to fetch favorites");
+  }
 
-    return query;
-  };
-} else return null;
+  return res.json();
+};
+
+export const useFavorites = () => {
+  const dispatch = useDispatch();
+
+  const query = useQuery<favoriteTypes, Error>({
+    queryKey: ["favorites"],
+    queryFn: fetchFavorites,
+    staleTime: 5 * 60 * 1000,
+    retry: 1,
+  });
+
+  if (query.data) {
+    dispatch(userFavorite(query.data));
+  }
+
+  return query;
+};
