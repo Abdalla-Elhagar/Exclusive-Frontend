@@ -5,13 +5,12 @@ import { logedInUser } from "../slices/selectedUser";
 const API = import.meta.env.VITE_API;
 
 const fetchUser = async (): Promise<any> => {
-  const token = sessionStorage.getItem("authToken");
+  const token = localStorage.getItem("authToken");
 
   const headers: any = {
     "Content-Type": "application/json",
   };
 
-  // أضف التوكن للـ iPhone
   if (token) {
     headers["Authorization"] = `Bearer ${token}`;
   }
@@ -24,7 +23,7 @@ const fetchUser = async (): Promise<any> => {
 
   if (!res.ok) {
     if (res.status === 401) {
-      sessionStorage.removeItem("authToken");
+      localStorage.removeItem("authToken");
     }
     throw new Error("User not authenticated");
   }

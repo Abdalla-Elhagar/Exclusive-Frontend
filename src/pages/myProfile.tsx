@@ -28,7 +28,7 @@ export default function Profile() {
   const [loading, setLoading] = useState(false);
 
   const getHeaders = () => {
-    const token = sessionStorage.getItem("authToken");
+    const token = localStorage.getItem("authToken");
     const headers: any = {
       "Content-Type": "application/json",
     };
@@ -66,7 +66,7 @@ export default function Profile() {
 
       if (!res.ok) {
         if (res.status === 401) {
-          sessionStorage.removeItem("authToken");
+          localStorage.removeItem("authToken");
         }
         toast.error("name or phone has been error");
         return;
@@ -113,7 +113,7 @@ export default function Profile() {
 
       if (!res.ok) {
         if (res.status === 401) {
-          sessionStorage.removeItem("authToken");
+          localStorage.removeItem("authToken");
         }
         setPasswordError(true);
         toast.error("The current password has been error");

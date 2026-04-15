@@ -18,13 +18,14 @@ export default function UserMenu() {
 
   const handleLogOut = async () => {
     try {
-      sessionStorage.removeItem("authToken");
+      const token = localStorage.getItem("authToken");
+      localStorage.removeItem("authToken");
 
       await fetch(`${API}/users/log-out`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${sessionStorage.getItem("authToken")}`,
+          Authorization: `Bearer ${token}`,
         },
         credentials: "include",
       });

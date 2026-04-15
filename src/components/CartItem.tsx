@@ -20,7 +20,7 @@ export default function CartItem({
   const dispatch = useDispatch();
 
   const getHeaders = () => {
-    const token = sessionStorage.getItem("authToken");
+    const token = localStorage.getItem("authToken");
     const headers: any = {
       "Content-Type": "application/json",
     };
@@ -45,7 +45,7 @@ export default function CartItem({
 
       if (!res.ok) {
         if (res.status === 401) {
-          sessionStorage.removeItem("authToken");
+          localStorage.removeItem("authToken");
         }
         return;
       }

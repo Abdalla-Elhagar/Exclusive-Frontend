@@ -44,7 +44,7 @@ export default function LogIn() {
       }
 
       if (data.token) {
-        sessionStorage.setItem("authToken", data.token);
+        localStorage.setItem("authToken", data.token);
       }
 
       setError(false);

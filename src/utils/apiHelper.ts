@@ -2,7 +2,7 @@ const API = import.meta.env.VITE_API;
 
 export const makeRequest = async (url: string, options: any = {}) => {
   try {
-    const token = sessionStorage.getItem("authToken");
+    const token = localStorage.getItem("authToken");
 
     const headers: any = {
       "Content-Type": "application/json",
@@ -20,7 +20,7 @@ export const makeRequest = async (url: string, options: any = {}) => {
     });
 
     if (response.status === 401) {
-      sessionStorage.removeItem("authToken");
+      localStorage.removeItem("authToken");
     }
 
     return response;

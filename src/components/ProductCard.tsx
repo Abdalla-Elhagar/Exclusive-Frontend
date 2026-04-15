@@ -25,7 +25,7 @@ export default function ProductCard({ product }: { product: productType }) {
   }
 
   const InitialFavorites = useSelector(
-    (state: any) => state.productData.favorite
+    (state: any) => state.productData.favorite,
   );
   const [favorites, setFavorite] = useState<{ products: string[] }>({
     products: [],
@@ -43,7 +43,7 @@ export default function ProductCard({ product }: { product: productType }) {
 
   // Helper function للـ headers مع التوكن
   const getHeaders = () => {
-    const token = sessionStorage.getItem("authToken");
+    const token = localStorage.getItem("authToken");
     const headers: any = {
       "Content-Type": "application/json",
     };
@@ -70,7 +70,7 @@ export default function ProductCard({ product }: { product: productType }) {
 
       if (!res.ok) {
         if (res.status === 401) {
-          sessionStorage.removeItem("authToken");
+          localStorage.removeItem("authToken");
         }
         throw new Error("Failed to remove from favorites");
       }
@@ -105,7 +105,7 @@ export default function ProductCard({ product }: { product: productType }) {
 
       if (!res.ok) {
         if (res.status === 401) {
-          sessionStorage.removeItem("authToken");
+          localStorage.removeItem("authToken");
         }
         throw new Error("Failed to add to favorites");
       }
@@ -140,7 +140,7 @@ export default function ProductCard({ product }: { product: productType }) {
 
       if (!res.ok) {
         if (res.status === 401) {
-          sessionStorage.removeItem("authToken");
+          localStorage.removeItem("authToken");
         }
         toast.info("Product is already in the cart!");
       } else {
@@ -270,7 +270,7 @@ export default function ProductCard({ product }: { product: productType }) {
             <span className="mr-10 text-mainColor">
               $
               {Math.floor(
-                product.price - (product.discount / 100) * product.price
+                product.price - (product.discount / 100) * product.price,
               )}
             </span>
             <span className=" line-through text-[#666]">${product.price}</span>

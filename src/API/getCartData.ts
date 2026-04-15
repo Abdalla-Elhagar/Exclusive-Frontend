@@ -6,7 +6,7 @@ import type { cartTypes } from "../Types/cart";
 const API = import.meta.env.VITE_API;
 
 const fetchCart = async (): Promise<cartTypes> => {
-  const token = sessionStorage.getItem("authToken");
+  const token = localStorage.getItem("authToken");
 
   const headers: any = {
     "Content-Type": "application/json",
@@ -24,7 +24,7 @@ const fetchCart = async (): Promise<cartTypes> => {
 
   if (!res.ok) {
     if (res.status === 401) {
-      sessionStorage.removeItem("authToken");
+      localStorage.removeItem("authToken");
     }
     throw new Error("Failed to fetch cart");
   }

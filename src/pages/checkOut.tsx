@@ -21,7 +21,7 @@ export default function CheckOut() {
 
   const cart: cartTypes = useSelector((state: any) => state.productData.cart);
   const Products: productType[] = useSelector(
-    (state: any) => state.productData.data
+    (state: any) => state.productData.data,
   );
 
   const [selectedOption, setSelectedOption] = useState("cash");
@@ -44,7 +44,7 @@ export default function CheckOut() {
   ];
 
   const getHeaders = () => {
-    const token = sessionStorage.getItem("authToken");
+    const token = localStorage.getItem("authToken");
     const headers: any = {
       "Content-Type": "application/json",
     };
@@ -65,7 +65,7 @@ export default function CheckOut() {
 
       if (!res.ok) {
         if (res.status === 401) {
-          sessionStorage.removeItem("authToken");
+          localStorage.removeItem("authToken");
         }
         toast.error("can't check out now (please try later)");
         return;
@@ -130,7 +130,7 @@ export default function CheckOut() {
             {cart.items.map((product: cartItemTypes) => {
               const productData = Products.find(
                 (p: productType) =>
-                  p._id.toString() === product.product.toString()
+                  p._id.toString() === product.product.toString(),
               );
               if (productData)
                 return (

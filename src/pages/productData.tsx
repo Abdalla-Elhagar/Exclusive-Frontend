@@ -21,13 +21,13 @@ export default function ProductData() {
   const logedInUser = useSelector((state: any) => state.SelectedUser.data);
 
   const favoriteData: favoriteTypes = useSelector(
-    (state: any) => state.productData.favorite
+    (state: any) => state.productData.favorite,
   );
   const Products: productType[] = useSelector(
-    (state: any) => state.productData.data
+    (state: any) => state.productData.data,
   );
   const myProduct: productType = useSelector(
-    (state: any) => state.sendData.productHsBeenSent
+    (state: any) => state.sendData.productHsBeenSent,
   );
   const [quantity, setQuantity] = useState(1);
 
@@ -35,7 +35,7 @@ export default function ProductData() {
   const [cartLoading, setCartLoading] = useState(false);
 
   const getHeaders = () => {
-    const token = sessionStorage.getItem("authToken");
+    const token = localStorage.getItem("authToken");
     const headers: any = {
       "Content-Type": "application/json",
     };
@@ -62,7 +62,7 @@ export default function ProductData() {
 
       if (!res.ok) {
         if (res.status === 401) {
-          sessionStorage.removeItem("authToken");
+          localStorage.removeItem("authToken");
         }
         throw new Error("Failed to remove from favorites");
       }
@@ -96,7 +96,7 @@ export default function ProductData() {
 
       if (!res.ok) {
         if (res.status === 401) {
-          sessionStorage.removeItem("authToken");
+          localStorage.removeItem("authToken");
         }
         throw new Error("Failed to add to favorites");
       }
@@ -130,7 +130,7 @@ export default function ProductData() {
 
       if (!res.ok) {
         if (res.status === 401) {
-          sessionStorage.removeItem("authToken");
+          localStorage.removeItem("authToken");
         }
         toast.info("Product is already in the cart!");
       } else {
@@ -148,7 +148,7 @@ export default function ProductData() {
   };
 
   const bestProducts = Products.filter(
-    (e: any) => e.sales > 1500 && e.rate > 3
+    (e: any) => e.sales > 1500 && e.rate > 3,
   );
   const first4Products = bestProducts.slice(0, 4);
 
