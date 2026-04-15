@@ -4,47 +4,48 @@ import { userFavorite } from "../slices/productData";
 import type { favoriteTypes } from "../Types/favorite";
 
 const API = import.meta.env.VITE_API;
+if (localStorage.getItem("authToken")) {
+  const fetchFavorites = async (): Promise<favoriteTypes> => {
+    const token = localStorage.getItem("authToken");
 
-const fetchFavorites = async (): Promise<favoriteTypes> => {
-  const token = localStorage.getItem("authToken");
+    const headers: any = {
+      "Content-Type": "application/json",
+    };
 
-  const headers: any = {
-    "Content-Type": "application/json",
+    if (token) {
+      headers["Authorization"] = `Bearer ${token}`;
+    }
+
+    const res = await fetch(`${API}/favorite`, {
+      method: "GET",
+      credentials: "include",
+      headers,
+    });
+
+    if (!res.ok) {
+      if (res.status === 401) {
+        localStorage.removeItem("authToken");
+      }
+      throw new Error("Failed to fetch favorites");
+    }
+
+    return res.json();
   };
 
-  if (token) {
-    headers["Authorization"] = `Bearer ${token}`;
-  }
+  export const useFavorites = () => {
+    const dispatch = useDispatch();
 
-  const res = await fetch(`${API}/favorite`, {
-    method: "GET",
-    credentials: "include",
-    headers,
-  });
+    const query = useQuery<favoriteTypes, Error>({
+      queryKey: ["favorites"],
+      queryFn: fetchFavorites,
+      staleTime: 5 * 60 * 1000,
+      retry: 1,
+    });
 
-  if (!res.ok) {
-    if (res.status === 401) {
-      localStorage.removeItem("authToken");
+    if (query.data) {
+      dispatch(userFavorite(query.data));
     }
-    throw new Error("Failed to fetch favorites");
-  }
 
-  return res.json();
-};
-
-export const useFavorites = () => {
-  const dispatch = useDispatch();
-
-  const query = useQuery<favoriteTypes, Error>({
-    queryKey: ["favorites"],
-    queryFn: fetchFavorites,
-    staleTime: 5 * 60 * 1000,
-    retry: 1,
-  });
-
-  if (query.data) {
-    dispatch(userFavorite(query.data));
-  }
-
-  return query;
-};
+    return query;
+  };
+} else return null;

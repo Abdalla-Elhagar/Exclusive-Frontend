@@ -5,45 +5,47 @@ import type { cartTypes } from "../Types/cart";
 
 const API = import.meta.env.VITE_API;
 
-const fetchCart = async (): Promise<cartTypes> => {
-  const token = localStorage.getItem("authToken");
+if (localStorage.getItem("authToken")) {
+  const fetchCart = async (): Promise<cartTypes> => {
+    const token = localStorage.getItem("authToken");
 
-  const headers: any = {
-    "Content-Type": "application/json",
+    const headers: any = {
+      "Content-Type": "application/json",
+    };
+
+    if (token) {
+      headers["Authorization"] = `Bearer ${token}`;
+    }
+
+    const res = await fetch(`${API}/cart`, {
+      method: "GET",
+      credentials: "include",
+      headers,
+    });
+
+    if (!res.ok) {
+      if (res.status === 401) {
+        localStorage.removeItem("authToken");
+      }
+      throw new Error("Failed to fetch cart");
+    }
+
+    return res.json();
   };
 
-  if (token) {
-    headers["Authorization"] = `Bearer ${token}`;
-  }
+  export const useCart = () => {
+    const dispatch = useDispatch();
 
-  const res = await fetch(`${API}/cart`, {
-    method: "GET",
-    credentials: "include",
-    headers,
-  });
+    const query = useQuery<cartTypes, Error>({
+      queryKey: ["cart"],
+      queryFn: fetchCart,
+      staleTime: 5 * 60 * 1000,
+    });
 
-  if (!res.ok) {
-    if (res.status === 401) {
-      localStorage.removeItem("authToken");
+    if (query.data) {
+      dispatch(userCart(query.data));
     }
-    throw new Error("Failed to fetch cart");
-  }
 
-  return res.json();
-};
-
-export const useCart = () => {
-  const dispatch = useDispatch();
-
-  const query = useQuery<cartTypes, Error>({
-    queryKey: ["cart"],
-    queryFn: fetchCart,
-    staleTime: 5 * 60 * 1000,
-  });
-
-  if (query.data) {
-    dispatch(userCart(query.data));
-  }
-
-  return query;
-};
+    return query;
+  };
+} else return null;
