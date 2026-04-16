@@ -18,19 +18,19 @@ import { categories } from "../slices/sendData";
 
 const categoriesItems: any = [
   {
-    title: "Phones",
+    title: "Accessories",
     icon: <PhoneIphoneOutlinedIcon className="myIcon text-2xl" />,
   },
   {
-    title: "TV",
+    title: "Mobile",
     icon: <TvOutlinedIcon className="myIcon text-2xl" />,
   },
   {
-    title: "Audio",
+    title: "Sports",
     icon: <HeadphonesOutlinedIcon className="myIcon text-2xl" />,
   },
   {
-    title: "Gaming",
+    title: "Tablets",
     icon: <SportsEsportsOutlinedIcon className="myIcon text-2xl" />,
   },
   {
@@ -38,7 +38,7 @@ const categoriesItems: any = [
     icon: <LaptopWindowsOutlinedIcon className="myIcon text-2xl" />,
   },
   {
-    title: "Appliances",
+    title: "Watches",
     icon: <BlenderOutlinedIcon className="myIcon text-2xl" />,
   },
 ];

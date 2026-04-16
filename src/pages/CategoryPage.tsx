@@ -3,17 +3,14 @@ import ProductCard from "../components/ProductCard";
 import { useSelector } from "react-redux";
 
 export default function CategoriesPage() {
-  const Products:productType[] = useSelector((state:any) => state.productData.data)
-  const categoryName = useSelector((state:any) => state.sendData.categoryName)
-
-  
-
+  const Products: productType[] = useSelector(
+    (state: any) => state.productData.data,
+  );
+  const categoryName = useSelector((state: any) => state.sendData.categoryName);
 
   const filteredProducts: any = Products.filter(
-    (p: any) => p.category.toUpperCase() == categoryName.toUpperCase()
+    (p: any) => p.category.toUpperCase() == categoryName.toUpperCase(),
   );
-
-  console.log(Products)
 
   return (
     <div className="container w-full relative">

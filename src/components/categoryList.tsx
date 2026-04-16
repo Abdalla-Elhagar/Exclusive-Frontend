@@ -10,23 +10,23 @@ export default function CategoreList() {
   const dispatch = useDispatch();
   const categoryListData = [
     {
-      primary: "Phones",
+      primary: "Accessories",
     },
 
     {
-      primary: "Audio",
+      primary: "Mobile",
     },
 
     {
-      primary: "TV",
+      primary: "Sports",
     },
 
     {
-      primary: "Gaming",
+      primary: "Tablets",
     },
 
     {
-      primary: "Appliances",
+      primary: "Watches",
     },
 
     {
