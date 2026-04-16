@@ -49,13 +49,11 @@ function MainApp() {
   const { isPending: cartLoading } = useCart();
   const { isPending: userLoading } = useUserData();
 
-  // if (!localStorage.getItem("authToken"))
+  const isAppLoading = localStorage.getItem("authToken")
+    ? productsLoading || favoritesLoading || cartLoading || userLoading
+    : productsLoading;
 
-  const isAppLoading =
-    productsLoading || favoritesLoading || cartLoading || userLoading;
-  if (isAppLoading) {
-    return <LoadingSpinner />;
-  }
+  if (isAppLoading) return <LoadingSpinner />;
   return (
     <>
       <main className=" overflow-hidden">

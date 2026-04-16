@@ -11,13 +11,13 @@ const fetchProducts = async (): Promise<productType[]> => {
 
   if (!res.ok) throw new Error("Failed to fetch products");
 
-  return res.json();
+  return await res.json();
 };
 
 export const useProducts = () => {
   const dispatch = useDispatch();
 
-  const query = useQuery<productType[] | null, Error>({
+  const query = useQuery<productType[], Error>({
     queryKey: ["products"],
     queryFn: fetchProducts,
     staleTime: 5 * 60 * 1000,
